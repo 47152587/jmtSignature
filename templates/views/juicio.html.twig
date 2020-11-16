@@ -1,0 +1,141 @@
+{# templates/views/number.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="jumbotron text-center">
+		<h1>Jordi Martínez Teruel</h1>
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-sm">
+				<h1>DEMANDADO
+				</h1>
+				<form>
+					<div class="form-group">
+						<label for="nombre">Nombre</label>
+						<input type="text" class="form-control" id="nombre" aria-describedby="nombreHelp" placeholder="Introduce Nombre">
+						<small id="nombreHelp" class="form-text text-muted">Introduce el nombre</small>
+					</div>
+					<div class="form-group">
+						<label for="InputDNI">DNI</label>
+						<input type="text" class="form-control" id="dni" aria-describedby="dniHelp" pattern="[0-9]{8}[A-Za-z]{1}" title="Debe poner 8 n�meros y una letra" placeholder="Introduce Dni">
+						<small id="dniHelp" class="form-text text-muted">Introduce el dni</small>
+					</div>
+
+					<div type="submit" style="width:100%" onclick="adduser(0)" class="btn btn-outline-primary">Submit</div>
+				</form>
+			</div>
+			<div class="col-sm">
+				<h1>DEMANDANTE
+				</h1>
+				<form>
+					<div class="form-group">
+						<label for="nombre">Nombre</label>
+						<input type="text" class="form-control" id="nombreb" aria-describedby="nombreHelp" placeholder="Introduce Nombre">
+						<small id="nombreHelp" class="form-text text-muted">Introduce el nombre</small>
+					</div>
+					<div class="form-group">
+						<label for="InputDNI">DNI</label>
+						<input type="text" class="form-control" id="dnib" aria-describedby="dniHelp" pattern="[0-9]{8}[A-Za-z]{1}" title="Debe poner 8 n�meros y una letra" placeholder="Introduce Dni">
+						<small id="dniHelp" class="form-text text-muted">Introduce el dni</small>
+					</div>
+					<div type="submit" style="width:100%" onclick="adduser(1)" class="btn btn-outline-primary">Submit</div>
+				</form>
+			</div>
+		</div>
+		<div class="row mt-10">
+			<div class="col-sm m-5">
+				<ddown {{':title="'~ defaultTextA ~'"'}} v-bind:users={{ jsonContentA}}></ddown>
+			</div>
+			<div class="col-sm mt-5">
+				<ddown {{':title="'~ defaultTextB ~'"'}} v-bind:users={{ jsonContentB}}></ddown>
+			</div>
+		</div>
+		<div class="row mt-10">
+			<div class="col-sm m-5">
+				K - Rey - 5 puntos N - Notario - 2 puntos V - Validador - 1 punto
+				<form>
+					<div class="form-group">
+						<label for="nombre">Cantidad K - Rey</label>
+						<input class="form-control" type="number" id="a1" name="a1" min="1" max="999999">
+						<small id="nombreHelp" class="form-text text-muted">Introduce la Cantidad K - Rey</small>
+					</div>
+					<div class="form-group">
+						<label for="InputDNI">Cantidad N - Notario</label>
+						<input class="form-control" type="number" id="b1" name="b1" min="1" max="999999">
+						<small id="dniHelp" class="form-text text-muted">Introduce la Cantidad N - Notario </small>
+					</div>
+					<div class="form-group">
+						<label for="InputDNI">Cantidad V - Validador</label>
+						<input class="form-control" type="number" id="c1" name="c1" min="1" max="999999">
+						<small id="dniHelp" class="form-text text-muted">Introduce la Cantidad V - Validador</small>
+					</div>
+				</form>
+			
+			
+			</div>
+			<div class="col-sm m-5">
+				K - Rey - 5 puntos N - Notario - 2 puntos V - Validador - 1 punto
+				<form>
+					<div class="form-group">
+						<label for="nombre">Cantidad K - Rey</label>
+						<input class="form-control" type="number" id="ab1" name="ab1" min="1" max="999999">
+						<small id="nombreHelp" class="form-text text-muted">Introduce la Cantidad K - Rey</small>
+					</div>
+					<div class="form-group">
+						<label for="InputDNI">Cantidad N - Notario</label>
+						<input class="form-control" type="number" id="bb1" name="bb1" min="1" max="999999">
+						<small id="dniHelp" class="form-text text-muted">Introduce la Cantidad N - Notario </small>
+					</div>
+					<div class="form-group">
+						<label for="InputDNI">Cantidad V - Validador</label>
+						<input class="form-control" type="number" id="cb1" name="cb1" min="1" max="999999">
+						<small id="dniHelp" class="form-text text-muted">Introduce la Cantidad V - Validador</small>
+					</div>
+				</form>
+			
+			</div>
+		</div>
+		 <div class="row">
+    		<div class="col">
+				<div  style="width:100%;margin-bottom:50px;" onclick="vsUsers()" class="btn btn-outline-success"> DEMANDADO VS DEMANDANTE</div>
+			</div>
+		</div>
+		<div class="row">
+    		<div class="col">
+				<div id="textoganador"></div>
+			</div>
+		</div>
+	</div>
+
+	<script type="application/javascript">
+		function adduser(tipo) {
+			var nombre = "";
+			var dni = "";
+			if (tipo == 1)
+				nombre = document.getElementById("nombreb").value;
+			else 
+				nombre = document.getElementById("nombre").value;
+
+			if (tipo == 1)
+				dni = document.getElementById("dnib").value;
+			else
+				dni = document.getElementById("dni").value;
+				
+			var url = '/createUser/' + nombre + '/' + dni + '/' + tipo
+			$.ajax({
+				type: 'POST',
+				url: url,
+				dataType: 'json',
+        		contentType: "application/json",
+				// data: data,
+				success: function (response) {
+					console.log(response);
+					var json = $.parseJSON(response);
+					onsole.log(json);
+				}
+			});
+		}
+	</script>
+{% endblock %}
