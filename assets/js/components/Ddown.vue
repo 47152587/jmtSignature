@@ -1,5 +1,5 @@
 <template>
- <select class="browser-default custom-select">
+ <select id="{{id}}" class="browser-default custom-select">
   <option selected>{{title}}</option>
  <option v-for="item in users" v-bind:key="item.id">
    {{item.nombre}}
@@ -10,6 +10,10 @@
 
 export default {
   props: {
+    id: {
+      type: String,
+      default: ""
+    },
     title: {
       type: String,
       default: ""

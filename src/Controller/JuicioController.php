@@ -18,7 +18,8 @@ class JuicioController extends AbstractController
      */
     public function index(SerializerInterface $serializer): Response
     {
-        
+        $option1 = "option1";
+        $option2 = "option2";
         $defaultTextA = "Demandados";
         $defaultTextB = "Demandantes";
         $arrUsers = $this->getDoctrine()->getRepository(Usuario::class)->findByTipoField(0);
@@ -41,8 +42,44 @@ class JuicioController extends AbstractController
             'defaultTextA' => $defaultTextA,
             'defaultTextB' => $defaultTextB,
             'jsonContentA' => $jsonContentA,
-            'jsonContentB' => $jsonContentB
+            'jsonContentB' => $jsonContentB,
+            'option1' => $option1,
+            'option2' => $option2
         ]);
+    }
+//    checkVs
+/**
+    * @Route("/checkVs/{a1}/{b1}/{c1}/{ab1}/{bb1}/{cb1}", name="addUser", methods={"GET","POST"})
+    */ 
+    public function checkVs($a1, $b1, $c1, $ab1, $bb1, $cb1, $nombre1, $nombre2): Response
+    {
+        $total_demandado = ($a1 * 5) + ($b1 * 2) + ($c1 * 1);
+        $total_demandate = ($ab1 * 5) + ($bb1 * 2) + ($cb1 * 1);
+        
+        if ($total_demandado > $total_demandate)
+        {
+           return new JsonResponse([
+                'status' => 'OK',
+                'msg' => 'El ganador es el demandado con ' . $total_demandado
+            ], 200);
+        }
+
+       if ($total_demandado == $total_demandate)
+        {
+            return new JsonResponse([
+                'status' => 'OK',
+                'msg' => 'Las dos partes son iguales ' . $total_demandado
+            ], 200);
+        } 
+
+        if ($total_demandado < $total_demandate)
+        {
+            return new JsonResponse([
+                'status' => 'OK',
+                'msg' => 'El ganador es el demandante con ' . $total_demandate
+            ], 200);
+        } 
+        
     }
 
     /**
